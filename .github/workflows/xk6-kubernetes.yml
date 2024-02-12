@@ -3,13 +3,16 @@ on: [push]
 
 jobs:
   k6_local_test:
-    name: k6 counter extension run
+    name: k6 running pipeline xk6-kubernetes
     runs-on: ubuntu-latest
     container: docker://golang:1.19-alpine
 
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
 
       - name: Install xk6
         run: go install go.k6.io/xk6/cmd/xk6@latest
