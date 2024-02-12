@@ -1,4 +1,3 @@
-// example rampage
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { Kubernetes } from 'k6/x/kubernetes';
@@ -23,8 +22,12 @@ const podSpec = {
 
 export const options = {
   stages: [
-    { duration: '2m', target: 100 },
+    { duration: '1m', target: 100 },
   ],
+  thresholds: {
+    http_req_failed: ['rate<0.01'], 
+    http_req_duration: ['p(95)<200'], 
+  },
 };
 
 export function setup() {
