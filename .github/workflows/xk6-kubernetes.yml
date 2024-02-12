@@ -11,9 +11,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       
-      - name: Start minikube
-        uses: medyagh/setup-minikube@master
-
       - name: Install xk6
         run: go install go.k6.io/xk6/cmd/xk6@latest
 
