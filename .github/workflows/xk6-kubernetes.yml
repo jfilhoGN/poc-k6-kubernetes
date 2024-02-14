@@ -17,6 +17,9 @@ jobs:
       - name: Build xk6-kubernetes
         run: xk6 build --with github.com/grafana/xk6-kubernetes
 
+      - name: Setup kubectl
+        id: install-kubectl
+        uses: azure/setup-kubectl@v3
       - name: Run xk6-kuberenetes with script
         run: ./k6 run --out json=teste-github.json script2.js
 
