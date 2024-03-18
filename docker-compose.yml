@@ -29,7 +29,7 @@ services:
       - ./grafana:/etc/grafana/provisioning/
 
   k6:
-    image: grafana/k6:latest
+    image: xk6-kubernetes
     networks:
       - k6
     ports:
@@ -37,4 +37,5 @@ services:
     environment:
       - K6_OUT=influxdb=http://influxdb:8086/k6
     volumes:
-      - ./samples:/scripts
+      - ./app:/scripts
+    command: ./k6 run --out influxdb=http://influxdb:8086 /app/script2.js
