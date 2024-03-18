@@ -1,6 +1,8 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { Kubernetes } from 'k6/x/kubernetes';
+import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
+import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
 
 const podSpec = {
   apiVersion: "v1",
@@ -45,4 +47,14 @@ export default function () {
   const res = http.get('https://httpbin.test.k6.io/');
   check(res, { 'status was 200': (r) => r.status == 200 });
   sleep(1);
+}
+
+const results = `results${new Date().getMinutes().toLocaleString()}.html`
+
+export  function handleSummary (data) {
+  return {
+    'stdout': textSummary(data, { indent: ' ', enableColors: true }), 
+    [results]: htmlReport(data, { title: new Date().toLocaleString() }),
+    'summary.json': JSON.stringify(data), 
+  }
 }
