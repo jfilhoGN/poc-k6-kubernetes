@@ -18,8 +18,7 @@ jobs:
       - name: example tests
         run: |
           kubectl cluster-info
-          kubectl create deployment --image nginx my-nginx
-          kubectl get po
+          kubectl create namespace performance 
       
       - name: install Go
         uses: actions/setup-go@v2
@@ -42,4 +41,5 @@ jobs:
           path: |
             teste-github.json
             *.html
+            summary.json
           retention-days: 3d
