@@ -49,12 +49,12 @@ export default function () {
   sleep(1);
 }
 
-const results = `results${new Date().getMinutes().toLocaleString()}.html`
+const results = `report/results${new Date().getMinutes().toLocaleString()}.html`
 
 export  function handleSummary (data) {
   return {
     'stdout': textSummary(data, { indent: ' ', enableColors: true }), 
     [results]: htmlReport(data, { title: new Date().toLocaleString() }),
-    'summary.json': JSON.stringify(data), 
+    'report/summary.json': JSON.stringify(data), 
   }
 }

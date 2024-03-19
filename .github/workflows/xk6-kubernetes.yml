@@ -32,13 +32,13 @@ jobs:
         run: xk6 build --with github.com/grafana/xk6-kubernetes
 
       - name: Run xk6-kubernetes with script
-        run: ./k6 run --out influxdb=${{ vars.ROUTEINFLUXDB }} --out json=teste-github.json script2.js
+        run: ./k6 run --out influxdb=${{ vars.ROUTEINFLUXDB }} --out json=report/teste-github.json script2.js
 
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          SOURCE: "./"
+          SOURCE: "./report/"
           REMOTE_HOST: "ec2-3-145-153-122.us-east-2.compute.amazonaws.com"
           REMOTE_USER: "ec2-user"
           TARGET: "/var/www/html/report"
