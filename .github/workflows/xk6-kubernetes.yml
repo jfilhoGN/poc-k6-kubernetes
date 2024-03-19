@@ -13,7 +13,7 @@ jobs:
       - name: install Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.16
+          go-version: 1.19
       
       - name: Install xk6
         run: go install go.k6.io/xk6/cmd/xk6@latest
