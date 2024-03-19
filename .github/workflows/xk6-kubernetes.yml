@@ -8,7 +8,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+      - name: install k8s
+        run: |
+          curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE=777 sh -
+          cat /etc/rancher/k3s/k3s.yaml
+          mkdir -p ~/.kube
+          cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+      - name: example tests
+        run: |
+          kubectl cluster-info
+          kubectl create deployment --image nginx my-nginx
+          kubectl get po
       
       - name: install Go
         uses: actions/setup-go@v2
@@ -21,18 +32,7 @@ jobs:
       - name: Build xk6-kubernetes
         run: xk6 build --with github.com/grafana/xk6-kubernetes
 
-      - name: install k8s
-        run: |
-          apt install curl
-          curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE=777 sh -
-          cat /etc/rancher/k3s/k3s.yaml
-          mkdir -p ~/.kube
-          cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-      - name: example tests
-        run: |
-          kubectl cluster-info
-          kubectl create namespace performance
-      - name: Run xk6-kuberenetes with script
+      - name: Run xk6-kubernetes with script
         run: ./k6 run --out json=teste-github.json script2.js
 
       - name: Archive code coverage results
