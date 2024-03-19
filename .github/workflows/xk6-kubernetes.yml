@@ -48,7 +48,7 @@ jobs:
         with:
           name: metrics-results
           path: |
-            teste-github.json
-            *.html
-            summary.json
+            report/teste-github.json
+            report/*.html
+            report/summary.json
           retention-days: 3d

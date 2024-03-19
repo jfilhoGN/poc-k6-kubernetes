@@ -24,7 +24,7 @@ const podSpec = {
 
 export const options = {
   stages: [
-    { duration: '1m', target: 10 },
+    { duration: '1m', target: 100 },
   ],
   thresholds: {
     http_req_failed: ['rate<0.01'], 
