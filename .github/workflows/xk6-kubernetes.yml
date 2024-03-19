@@ -43,7 +43,7 @@ jobs:
           REMOTE_USER: "ec2-user"
           TARGET: "/var/www/html/report"
 
-      - name: Archive code coverage results
+      - name: Report Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: metrics-results
