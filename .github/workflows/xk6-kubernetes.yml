@@ -34,6 +34,15 @@ jobs:
       - name: Run xk6-kubernetes with script
         run: ./k6 run --out influxdb=${{ vars.ROUTEINFLUXDB }} --out json=teste-github.json script2.js
 
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          SOURCE: "./"
+          REMOTE_HOST: "ec2-3-145-153-122.us-east-2.compute.amazonaws.com"
+          REMOTE_USER: "ec2-user"
+          TARGET: "/var/www/html/report"
+
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
         with:
