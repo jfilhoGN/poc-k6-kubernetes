@@ -38,3 +38,4 @@ jobs:
           path: |
             teste-github.json
             *.html
+          retention-days: 3d
