@@ -50,7 +50,7 @@ export function setup() {
 
 export default function () {
   // const jobs = kubernetes.list("Job", "performance-test");
-  const res = http.get('https://httpbin.test.k6.io/', {
+  let res = http.get('https://httpbin.test.k6.io/', {
     tags: {
       pdpTag: "pdpTagTrend",
     },
