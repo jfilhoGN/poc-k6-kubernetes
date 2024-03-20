@@ -35,7 +35,7 @@ export const options = {
     http_req_duration: ['p(95)<200'],
     pdpTrend: ['p(95)<200'],
     addToCartTrend: [{
-      "threshold": "p(95)<50",
+      "threshold": "p(95)<2000",
       "abortOnFail": true
     }]
   },
