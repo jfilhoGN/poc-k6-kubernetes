@@ -59,12 +59,12 @@ export default function () {
   pdpTrend.add(res.timings.duration, { pdpTag: "pdpTagTrend" });
 
 
-  const res = http.get('https://httpbin.test.k6.io/');
+  res = http.get('https://httpbin.test.k6.io/');
   check(res, { 'status was 200': (r) => r.status == 200 });
   sleep(1);
 
 
-  const res = http.get('https://httpbin.test.k6.io/', {
+  res = http.get('https://httpbin.test.k6.io/', {
     tags: {
       addToCart: "addToCartTagTrend",
     },
@@ -72,7 +72,6 @@ export default function () {
   check(res, { 'status was 200': (r) => r.status == 200 });
   sleep(1);
   addToCartTrend.add(res.timings.duration, { pdpTag: "pdpTagTrend" });
-
 
 }
 
