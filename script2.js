@@ -4,6 +4,9 @@ import { Kubernetes } from 'k6/x/kubernetes';
 import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
 import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
 
+const pdpTrend = new Trend('pdpTrend', true);
+const addToCartTrend = new Trend('addToCartTrend', true);
+
 const podSpec = {
   apiVersion: "v1",
   kind: "Pod",
@@ -27,8 +30,10 @@ export const options = {
     { duration: '1m', target: 100 },
   ],
   thresholds: {
-    http_req_failed: ['rate<0.01'], 
-    http_req_duration: ['p(95)<200'], 
+    http_req_failed: ['rate<0.01'],
+    http_req_duration: ['p(95)<200'],
+    pdpTrend: ['p(95)<200'],
+    addToCartTrend: ['p(95)<100']
   },
 };
 
@@ -44,17 +49,39 @@ export function setup() {
 
 export default function () {
   // const jobs = kubernetes.list("Job", "performance-test");
+  const res = http.get('https://httpbin.test.k6.io/', {
+    tags: {
+      pdpTag: "pdpTagTrend",
+    },
+  });
+  check(res, { 'status was 200': (r) => r.status == 200 });
+  sleep(1);
+  pdpTrend.add(res.timings.duration, { pdpTag: "pdpTagTrend" });
+
+
   const res = http.get('https://httpbin.test.k6.io/');
   check(res, { 'status was 200': (r) => r.status == 200 });
   sleep(1);
+
+
+  const res = http.get('https://httpbin.test.k6.io/', {
+    tags: {
+      addToCart: "addToCartTagTrend",
+    },
+  });
+  check(res, { 'status was 200': (r) => r.status == 200 });
+  sleep(1);
+  addToCartTrend.add(res.timings.duration, { pdpTag: "pdpTagTrend" });
+
+
 }
 
 const results = `report/results${new Date().getMinutes().toLocaleString()}.html`
 
-export  function handleSummary (data) {
+export function handleSummary(data) {
   return {
-    'stdout': textSummary(data, { indent: ' ', enableColors: true }), 
+    'stdout': textSummary(data, { indent: ' ', enableColors: true }),
     [results]: htmlReport(data, { title: new Date().toLocaleString() }),
-    'report/summary.json': JSON.stringify(data), 
+    'report/summary.json': JSON.stringify(data),
   }
 }
