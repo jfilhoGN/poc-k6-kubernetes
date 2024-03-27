@@ -13,6 +13,7 @@ Essa POC tem como objetivo realizar um estudo de utilização do xk6-kubernetes 
 ### Execução
 
 - Para executar o script basta executar o comando `./k6 run script2.js`
+- Formato com InfluxDB e Grafana `./k6 run --out influxdb=http://ec2-3-12-41-118.us-east-2.compute.amazonaws.com:8086 --out json=report/teste-github.json script2.js`
 
 
 ## Validação
